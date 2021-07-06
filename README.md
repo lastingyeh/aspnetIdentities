@@ -44,7 +44,7 @@
 
 ## Basic OAuth
 
- ![alt tag](https://github.com/lastingyeh/aspnetSecurities/blob/master/oauth/basic-oauth.png)
+ ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/basic-oauth.png)
   
 ## References
   
