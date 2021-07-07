@@ -1,0 +1,40 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  identity.server:
+    container_name: identityserver
+    image: identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/Dockerfile
+    ports:
+      - 8000:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  api.one:
+    container_name: apione
+    image: apione
+    build:
+      context: .
+      dockerfile: ApiOne/Dockerfile
+    ports:
+      - 8001:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'AuthorityHost=http://identity.server'
+
+  api.two:
+    container_name: apitwo
+    image: apitwo
+    build:
+      context: .
+      dockerfile: ApiTwo/Dockerfile
+    ports:
+      - 8002:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'AuthorityHost=http://identity.server'
+      - 'ApiOneHost=http://api.one'

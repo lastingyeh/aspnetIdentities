@@ -44,7 +44,15 @@
 
 ## OAuth
 
- ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/basic-oauth.png)
+- AuthorizationCode
+
+ ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/oauth-authorizationCode.png)
+
+## Identity Server 4
+
+- ClientCredentials
+  
+  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-clientCredentials.png)
 
 ### Dockerize
 
@@ -68,6 +76,7 @@
     volumes:
       - ~/.aspnet/https:/https:ro 
     ```
+
 
 ## References
   

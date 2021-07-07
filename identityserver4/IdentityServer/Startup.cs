@@ -11,10 +11,11 @@ namespace IdentityServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddIdentityServer()
-            //     .AddInMemoryApiResources()
-            //     .AddInMemoryClients()
-            //     .AddDeveloperSigningCredential();
+            services.AddIdentityServer()
+                .AddInMemoryApiResources(Configuration.GetApis())
+                .AddInMemoryClients(Configuration.GetClients())
+                .AddInMemoryApiScopes(Configuration.GetScopes())
+                .AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();
         }
