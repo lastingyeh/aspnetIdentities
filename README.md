@@ -42,10 +42,33 @@
     - verify user & token
     - [page] VerifyEmail
 
-## Basic OAuth
+## OAuth
 
  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/basic-oauth.png)
-  
+
+### Dockerize
+
+- docker-compose (/oauth)
+
+      $ docker-compose up --build -d 
+
+- Dev Https
+
+      $ dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p <password>
+
+      $ dotnet dev-certs https --trust
+
+  - set at docker-compose.yaml
+    ```yaml
+    environment:
+        - ASPNETCORE_URLS=https://+:443
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_Kestrel__Certificates__Default__Password=<password>
+        - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro 
+    ```
+
 ## References
   
 - [ASP.NET Core - Authentication & Authorization Tutorial (Claims/Identity/oAuth/oidc/IdentityServer4)](https://www.youtube.com/playlist?list=PLOeFnOV9YBa7dnrjpOG6lMpcyd7Wn7E8V)

@@ -1,0 +1,64 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  auth.server:
+    container_name: authserver
+    image: authserver
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+    ports:
+      - 8000:443
+    environment:
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - TokenSettings:Audiance=https://auth.server
+      - TokenSettings:Issuer=https://auth.server
+      - TokenSettings:Secret=not_too_short_otherwise_it_might_error
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  client.server:
+    container_name: clientserver
+    image: clientserver
+    build:
+      context: .
+      dockerfile: Client/Dockerfile
+    ports:
+      - 8001:443
+    environment:
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - AuthServerHost=https://auth.server
+      - ApiServerHost=https://api.server
+      # - 'AuthServerHostUrl=https://auth.server/oauth/authorize'
+    depends_on:
+      - auth.server
+      - api.server
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  api.server:
+    container_name: apiserver
+    image: apiserver
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - 8002:443
+    environment:
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - AuthServerHost=https://auth.server
+    depends_on:
+      - auth.server
+    volumes:
+      - ~/.aspnet/https:/https:ro

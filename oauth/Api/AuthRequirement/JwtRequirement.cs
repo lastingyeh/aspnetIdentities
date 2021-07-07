@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.AuthRequirement
 {
@@ -12,9 +13,11 @@ namespace Api.AuthRequirement
     {
         private readonly HttpContext _httpContext;
         private readonly HttpClient _client;
+        private readonly IConfiguration _config;
         public JwtRequirementHandler(
-        IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
+            _config = config;
             _httpContext = httpContextAccessor.HttpContext;
             _client = httpClientFactory.CreateClient();
         }
@@ -25,8 +28,9 @@ namespace Api.AuthRequirement
             if (_httpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
             {
                 var accessToken = authHeader.ToString().Split(' ')[1];
+                var authServerHost = _config["AuthSeverHost"];
 
-                var response = await _client.GetAsync($"https://localhost:5000/oauth/validate?access_token={accessToken}");
+                var response = await _client.GetAsync($"{authServerHost}/oauth/validate?access_token={accessToken}");
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

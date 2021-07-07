@@ -12,21 +12,22 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Client
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAuthentication(config =>
             {
                 // check the cookie to confirm that authenticated
@@ -39,11 +40,14 @@ namespace Client
                 .AddCookie("ClientCookie")
                 .AddOAuth("OurServer", config =>
                 {
+                    var authServerHost = _config["AuthServerHost"];
+
                     config.ClientId = "client_id";
                     config.ClientSecret = "client_secret";
                     config.CallbackPath = "/oauth/callback";
-                    config.AuthorizationEndpoint = "https://localhost:5000/oauth/authorize";
-                    config.TokenEndpoint = "https://localhost:5000/oauth/token";
+                    config.AuthorizationEndpoint = $"{authServerHost}/oauth/authorize";
+                    // config.AuthorizationEndpoint = Configuration["AuthServerHostUrl"];
+                    config.TokenEndpoint = $"{authServerHost}/oauth/token";
                     // set to retrieve access_token 
                     config.SaveTokens = true;
 

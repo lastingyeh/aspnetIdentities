@@ -8,32 +8,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Client.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        public HomeController(IHttpClientFactory httpClientFactory)
+        private readonly IConfiguration _config;
+        private readonly ILogger<HomeController> _logger;
+        public HomeController(IHttpClientFactory httpClientFactory, IConfiguration config, ILogger<HomeController> logger)
         {
+            _logger = logger;
+            _config = config;
             _httpClientFactory = httpClientFactory;
         }
         public IActionResult Index()
         {
+            var host = _config["AuthServerHost"];
+
             return View();
         }
 
         [Authorize]
         public async Task<IActionResult> Secret()
         {
+            var host = _config["AuthServerHost"];
             // check secret from server
             var serverResponse = await AccessTokenRefreshWrapper(
-                () => SecuredGetRequest("https://localhost:5000/secret/index"));
+                () => SecuredGetRequest($"{_config["AuthServerHost"]}/secret/index"));
 
             // check secret from api
 
             var apiResponse = await AccessTokenRefreshWrapper(
-                () => SecuredGetRequest("https://localhost:5002/secret/index"));
+                () => SecuredGetRequest($"{_config["AuthServerHost"]}/secret/index"));
 
             return View();
         }
@@ -51,7 +60,7 @@ namespace Client.Controllers
 
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-            return await client.GetAsync(url);
+            return await client.GetAsync(new Uri(url));
         }
 
         private async Task<HttpResponseMessage> AccessTokenRefreshWrapper(
@@ -79,7 +88,7 @@ namespace Client.Controllers
                 ["refresh_token"] = refreshToken,
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5000/oauth/token")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_config["AuthServerHost"]}/oauth/token")
             {
                 Content = new FormUrlEncodedContent(requestData)
             };
