@@ -1,5 +1,3 @@
-using System;
-using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 
-namespace ApiTwo
+namespace MvcClient
 {
     public class Startup
     {
@@ -22,47 +20,29 @@ namespace ApiTwo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", config =>
+            services.AddAuthentication(config =>
+            {
+                config.DefaultScheme = "Cookie";
+                config.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookie")
+                .AddOpenIdConnect("oidc", config =>
                 {
                     config.Authority = _config["AuthorityHost"];
-                    config.Audience = "ApiTwo";
+                    config.ClientId = "client_id_mvc";
+                    config.ClientSecret = "client_secret_mvc";
+                    config.SaveTokens = true;
 
                     if (_env.IsDevelopment())
                     {
                         config.RequireHttpsMetadata = false;
                     }
+                    // response_type 
+                    config.ResponseType = "code";
+
                 });
 
-            services.AddHttpClient("identityServer", config =>
-            {
-                config.BaseAddress = new Uri(_config["AuthorityHost"]);
-            });
-            // .ConfigurePrimaryHttpMessageHandler(_ =>
-            // {
-            //     var handler = new HttpClientHandler();
-            //     if (_env.IsDevelopment())
-            //     {
-            //         handler.ServerCertificateCustomValidationCallback = delegate { return true; };
-            //     }
-            //     return handler;
-            // });
-
-            services.AddHttpClient("apiOne", config =>
-            {
-                config.BaseAddress = new Uri(_config["ApiOneHost"]);
-            });
-            // .ConfigurePrimaryHttpMessageHandler(_ =>
-            // {
-            //     var handler = new HttpClientHandler();
-            //     if (_env.IsDevelopment())
-            //     {
-            //         handler.ServerCertificateCustomValidationCallback = delegate { return true; };
-            //     }
-            //     return handler;
-            // });
-
-            services.AddControllers();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +51,7 @@ namespace ApiTwo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+
                 IdentityModelEventSource.ShowPII = true;
             }
 
@@ -83,7 +63,7 @@ namespace ApiTwo
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

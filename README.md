@@ -81,3 +81,5 @@
 ## References
   
 - [ASP.NET Core - Authentication & Authorization Tutorial (Claims/Identity/oAuth/oidc/IdentityServer4)](https://www.youtube.com/playlist?list=PLOeFnOV9YBa7dnrjpOG6lMpcyd7Wn7E8V)
+
+- [OpenId](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html#ResponseTypesAndModes)

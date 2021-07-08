@@ -30,7 +30,7 @@ namespace ApiTwo.Controllers
                     ClientId = "client_id",
                     ClientSecret = "client_secret",
 
-                    Scope = "ApiOne.secret",
+                    Scope = "ApiOne",
                 });
 
             var accessToken = tokenResponse.AccessToken;

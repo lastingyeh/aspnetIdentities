@@ -1,11 +1,11 @@
 # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
 
-version: '3.4'
+version: '3.7'
 
 services:
   identity.server:
     container_name: identityserver
-    image: identityserver
+    image: id4-identityserver
     build:
       context: .
       dockerfile: IdentityServer/Dockerfile
@@ -13,10 +13,11 @@ services:
       - 8000:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - 'ClientSettings:MvcClient:RedirectUri=http://0.0.0.0:8003/signin-oidc'
 
   api.one:
     container_name: apione
-    image: apione
+    image: id4-apione
     build:
       context: .
       dockerfile: ApiOne/Dockerfile
@@ -28,7 +29,7 @@ services:
 
   api.two:
     container_name: apitwo
-    image: apitwo
+    image: id4-apitwo
     build:
       context: .
       dockerfile: ApiTwo/Dockerfile
@@ -38,3 +39,15 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - 'AuthorityHost=http://identity.server'
       - 'ApiOneHost=http://api.one'
+
+  mvc.client:
+    container_name: mvcclient
+    image: id4-mvcclient
+    build:
+      context: .
+      dockerfile: MvcClient/Dockerfile
+    ports:
+      - 8003:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'AuthorityHost=http://0.0.0.0:8000'

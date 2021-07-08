@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Client
 {
@@ -40,15 +39,14 @@ namespace Client
                 .AddCookie("ClientCookie")
                 .AddOAuth("OurServer", config =>
                 {
-                    var authServerHost = _config["AuthServerHost"];
+                    var authorityHost = _config["AuthorityHost"];
 
                     config.ClientId = "client_id";
                     config.ClientSecret = "client_secret";
                     config.CallbackPath = "/oauth/callback";
-                    config.AuthorizationEndpoint = $"{authServerHost}/oauth/authorize";
-                    // config.AuthorizationEndpoint = Configuration["AuthServerHostUrl"];
-                    config.TokenEndpoint = $"{authServerHost}/oauth/token";
-                    // set to retrieve access_token 
+                    config.AuthorizationEndpoint = $"{authorityHost}/oauth/authorize";
+                    config.TokenEndpoint = $"{authorityHost}/oauth/token";
+                    // save with retrieve access_token 
                     config.SaveTokens = true;
 
                     config.Events = new OAuthEvents

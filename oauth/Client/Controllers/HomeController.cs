@@ -34,7 +34,6 @@ namespace Client.Controllers
         [Authorize]
         public async Task<IActionResult> Secret()
         {
-            var host = _config["AuthServerHost"];
             // check secret from server
             var serverResponse = await AccessTokenRefreshWrapper(
                 () => SecuredGetRequest($"{_config["AuthServerHost"]}/secret/index"));
