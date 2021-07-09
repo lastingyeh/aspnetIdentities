@@ -22,21 +22,24 @@ namespace ApiTwo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var authorityHost = _config.GetValue<string>("AuthorityHost");
+            var apiOneHost = _config.GetValue<string>("ApiOneHost");
+
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", config =>
                 {
-                    config.Authority = _config["AuthorityHost"];
+                    config.Authority = authorityHost;
                     config.Audience = "ApiTwo";
 
-                    if (_env.IsDevelopment())
-                    {
-                        config.RequireHttpsMetadata = false;
-                    }
+                    // if (_env.IsDevelopment())
+                    // {
+                    //     config.RequireHttpsMetadata = false;
+                    // }
                 });
 
             services.AddHttpClient("identityServer", config =>
             {
-                config.BaseAddress = new Uri(_config["AuthorityHost"]);
+                config.BaseAddress = new Uri(authorityHost);
             });
             // .ConfigurePrimaryHttpMessageHandler(_ =>
             // {
@@ -50,7 +53,7 @@ namespace ApiTwo
 
             services.AddHttpClient("apiOne", config =>
             {
-                config.BaseAddress = new Uri(_config["ApiOneHost"]);
+                config.BaseAddress = new Uri(apiOneHost);
             });
             // .ConfigurePrimaryHttpMessageHandler(_ =>
             // {
@@ -71,8 +74,8 @@ namespace ApiTwo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
-                IdentityModelEventSource.ShowPII = true;
+
+                // IdentityModelEventSource.ShowPII = true;
             }
 
             app.UseRouting();

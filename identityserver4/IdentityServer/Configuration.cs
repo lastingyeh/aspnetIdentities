@@ -8,19 +8,33 @@ namespace IdentityServer
 {
     public static class Configuration
     {
+        // configure in id_token
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                // new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    Name="rc.scope",
+                    UserClaims = {"rc.grandma"}
+                }
             };
+        // Set resources with Api with scope and claims
         public static IEnumerable<ApiResource> GetApis() =>
             new List<ApiResource>
             {
-                new ApiResource("ApiOne"){Scopes = {"ApiOne"}},
-                new ApiResource("ApiTwo"){Scopes = {"ApiTwo"}},
+                new ApiResource("ApiOne")
+                {
+                    Scopes = {"ApiOne.user"}
+                },
+                new ApiResource("ApiTwo", new string[]{"rc.api.grandma"})
+                {
+                    Scopes = {"ApiTwo.sec"}
+                },
             };
 
+        // Mapping to AddOpenIdConnect, eg: MvcClient
         public static IEnumerable<Client> GetClients(IConfigurationSection configSection) =>
             new List<Client>
             {
@@ -29,7 +43,7 @@ namespace IdentityServer
                     ClientId = "client_id",
                     ClientSecrets = {new Secret("client_secret".ToSha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"ApiOne"}
+                    AllowedScopes = {"ApiOne.user"}
                 },
                 new Client
                 {
@@ -42,19 +56,25 @@ namespace IdentityServer
 
                     AllowedScopes =
                     {
-                        "ApiOne",
-                        "ApiTwo",
+                        "ApiOne.user",
+                        "ApiTwo.sec",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
+                        // IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope"
                     },
+                    // RequireConsent = false
+                    // put all the claims in the id_token
+                    // AlwaysIncludeUserClaimsInIdToken = true,
                 }
             };
-
+            
+        // Set all scope depende on Client.AllowScopes
         public static IEnumerable<ApiScope> GetScopes() =>
             new List<ApiScope>
             {
-                new ApiScope("ApiOne"),
-                new ApiScope("ApiTwo"),
+                new ApiScope("ApiOne.user"),
+                new ApiScope("ApiTwo.sec"),
+                // new ApiScope("rc.api.grandma")
             };
     }
 }

@@ -20,16 +20,19 @@ namespace ApiOne
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", config =>
                 {
-                    config.Authority = _config["AuthorityHost"];
+                    var authorityHost = _config.GetValue<string>("AuthorityHost");
+                    
+                    config.Authority = authorityHost;
                     config.Audience = "ApiOne";
 
-                    if (_env.IsDevelopment())
-                    {
-                        config.RequireHttpsMetadata = false;
-                    }
+                    // if (_env.IsDevelopment())
+                    // {
+                    //     config.RequireHttpsMetadata = false;
+                    // }
                 });
 
             services.AddControllers();
@@ -42,7 +45,7 @@ namespace ApiOne
             {
                 app.UseDeveloperExceptionPage();
 
-                IdentityModelEventSource.ShowPII = true;
+                // IdentityModelEventSource.ShowPII = true;
             }
 
             app.UseRouting();

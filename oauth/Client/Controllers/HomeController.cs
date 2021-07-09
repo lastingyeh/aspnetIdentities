@@ -41,7 +41,7 @@ namespace Client.Controllers
             // check secret from api
 
             var apiResponse = await AccessTokenRefreshWrapper(
-                () => SecuredGetRequest($"{_config["AuthServerHost"]}/secret/index"));
+                () => SecuredGetRequest($"{_config["ApiServerHost"]}/secret/index"));
 
             return View();
         }
@@ -57,7 +57,7 @@ namespace Client.Controllers
             var client = _httpClientFactory.CreateClient();
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}123");
 
             return await client.GetAsync(new Uri(url));
         }
@@ -67,12 +67,12 @@ namespace Client.Controllers
         {
             var response = await initialRequest();
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                await RefreshAccessToken();
+            // if (response.StatusCode == HttpStatusCode.Unauthorized)
+            // {
+            //     await RefreshAccessToken();
 
-                response = await initialRequest();
-            }
+            //     response = await initialRequest();
+            // }
 
             return response;
         }

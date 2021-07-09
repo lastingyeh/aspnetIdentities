@@ -13,7 +13,11 @@ services:
       - 8000:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - 'ClientSettings:MvcClient:RedirectUri=http://0.0.0.0:8003/signin-oidc'
+      - 'ClientSettings:MvcClient:RedirectUri=http://localhost:8003/signin-oidc'
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
 
   api.one:
     container_name: apione
@@ -25,7 +29,7 @@ services:
       - 8001:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - 'AuthorityHost=http://identity.server'
+      - 'AuthorityHost=https://identity.server'
 
   api.two:
     container_name: apitwo
@@ -37,7 +41,7 @@ services:
       - 8002:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - 'AuthorityHost=http://identity.server'
+      - 'AuthorityHost=https://identity.server'
       - 'ApiOneHost=http://api.one'
 
   mvc.client:
@@ -50,4 +54,4 @@ services:
       - 8003:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - 'AuthorityHost=http://0.0.0.0:8000'
+      - 'AuthorityHost=http://identityserver:8000'

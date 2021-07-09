@@ -1,4 +1,7 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -7,13 +10,98 @@
             "request": "attach"
         },
         {
-            "name": "Docker .NET Core Launch",
-            "type": "docker",
+            "name": "Identity Server",
+            "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "netCore": {
-                "appProject": "${workspaceFolder}/oauth/Api/Api.csproj"
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/identityserver4/IdentityServer/bin/Debug/netcoreapp3.1/IdentityServer.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/identityserver4/IdentityServer",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "launchBrowser": {
+                "enabled": false,
+            },
+        },
+        {
+            "name": "Client Mvc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/identityserver4/MvcClient/bin/Debug/netcoreapp3.1/MvcClient.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/identityserver4/MvcClient",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
             }
+        },
+        {
+            "name": "Api One",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/identityserver4/ApiOne/bin/Debug/netcoreapp3.1/ApiOne.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/identityserver4/ApiOne",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Api Two",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/identityserver4/ApiTwo/bin/Debug/netcoreapp3.1/ApiTwo.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/identityserver4/ApiTwo",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "IdentityServer4",
+            "configurations": [
+                "Identity Server",
+                "Client Mvc",
+                // "Api One",
+                // "Api Two"
+            ]
         }
     ]
 }

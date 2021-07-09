@@ -1,3 +1,5 @@
+using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,14 +35,38 @@ namespace MvcClient
                     config.ClientSecret = "client_secret_mvc";
                     config.SaveTokens = true;
 
-                    if (_env.IsDevelopment())
-                    {
-                        config.RequireHttpsMetadata = false;
-                    }
+                    // if (_env.IsDevelopment())
+                    // {
+                    //     config.RequireHttpsMetadata = false;
+                    // }
                     // response_type 
                     config.ResponseType = "code";
 
+                    // configure cookie claim mapping (rc.grandma map to RawCoding.Grandma at claim)
+                    config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.grandma");
+
+                    // delete unnecessary claims
+                    config.ClaimActions.DeleteClaim("amr");
+                    config.ClaimActions.DeleteClaim("s_hash");
+
+                    // two trips to load cliams in to the cookie but id_token make smaller
+                    config.GetClaimsFromUserInfoEndpoint = true;
+
+                    // add scope if need
+                    config.Scope.Clear();
+                    // add additional scope
+                    config.Scope.Add("rc.scope");
+                    config.Scope.Add("openid");
+                    config.Scope.Add("ApiOne.user");
+                    config.Scope.Add("ApiTwo.sec");
                 });
+
+            services.AddHttpClient("apiOne", config =>
+            {
+                var apiOneHost = _config.GetValue<string>("ApiOneHost");
+
+                config.BaseAddress = new Uri(apiOneHost);
+            });
 
             services.AddControllersWithViews();
         }
@@ -52,7 +78,7 @@ namespace MvcClient
             {
                 app.UseDeveloperExceptionPage();
 
-                IdentityModelEventSource.ShowPII = true;
+                // IdentityModelEventSource.ShowPII = true;
             }
 
             app.UseRouting();
