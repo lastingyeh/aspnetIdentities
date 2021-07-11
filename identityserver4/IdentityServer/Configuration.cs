@@ -62,12 +62,29 @@ namespace IdentityServer
                         // IdentityServerConstants.StandardScopes.Profile,
                         "rc.scope"
                     },
+                    // add scope [offline_access]
+                    AllowOfflineAccess = true,
                     // RequireConsent = false
                     // put all the claims in the id_token
                     // AlwaysIncludeUserClaimsInIdToken = true,
+                },
+                new Client
+                {
+                    ClientId = "client_id_js",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    RedirectUris = {configSection["JsClient:RedirectUri"]},
+
+                    AllowedScopes =
+                    {
+                        "ApiOne.user",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                    },
+
+                    AllowAccessTokensViaBrowser = true,
                 }
             };
-            
+
         // Set all scope depende on Client.AllowScopes
         public static IEnumerable<ApiScope> GetScopes() =>
             new List<ApiScope>

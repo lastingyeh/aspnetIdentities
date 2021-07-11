@@ -32,7 +32,8 @@ namespace MvcClient.Controllers
 
             var claims = User.Claims;
 
-            var result = await GetSecret(accessToken);
+            // var result = await GetSecret(accessToken);
+            await RefreshAccessToken();
 
             return View();
         }
@@ -47,6 +48,44 @@ namespace MvcClient.Controllers
             var content = await response.Content.ReadAsStringAsync();
 
             return content;
+        }
+
+        private async Task RefreshAccessToken()
+        {
+            var refreshTokenClient = _httpClientFactory.CreateClient("identityServer");
+            var discoveryDocument = await refreshTokenClient.GetDiscoveryDocumentAsync();
+
+            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+
+            var tokenResponse = await refreshTokenClient.RequestRefreshTokenAsync(
+                new RefreshTokenRequest
+                {
+                    Address = discoveryDocument.TokenEndpoint,
+                    RefreshToken = refreshToken,
+                    ClientId = "client_id_mvc",
+                    ClientSecret = "client_secret_mvc",
+                });
+
+            // test to check token diff
+            await TokenVerify(tokenResponse);
+
+            var authInfo = await HttpContext.AuthenticateAsync("Cookie");
+
+            authInfo.Properties.UpdateTokenValue("access_token", tokenResponse.AccessToken);
+            authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
+
+            await HttpContext.SignInAsync("Cookie", authInfo.Principal, authInfo.Properties);           
+        }
+
+        private async Task TokenVerify(TokenResponse response)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+
+            var accessTokenDiff = !response.AccessToken.Equals(accessToken);
+            var idTokenDiff = !response.IdentityToken.Equals(idToken);
+            var refreshTokenDiff = !response.RefreshToken.Equals(refreshToken);
         }
     }
 }

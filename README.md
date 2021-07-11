@@ -46,7 +46,7 @@
 
 - AuthorizationCode
 
- ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/oauth-authorizationCode.png)
+  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/oauth-authorizationCode.png)
 
 ## Identity Server 4
 
@@ -62,21 +62,22 @@
 
 - Dev Https
 
-      $ dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p <password>
+       $ dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p [password]
 
-      $ dotnet dev-certs https --trust
+       $ dotnet dev-certs https --trust
 
   - set at docker-compose.yaml
+
     ```yaml
     environment:
-        - ASPNETCORE_URLS=https://+:443
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_Kestrel__Certificates__Default__Password=<password>
-        - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=<password>
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ~/.aspnet/https:/https:ro 
+        
     ```
-
 
 ## References
   

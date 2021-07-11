@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
 
 namespace MvcClient
 {
@@ -22,6 +21,9 @@ namespace MvcClient
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var authorityHost = _config.GetValue<string>("AuthorityHost");
+            var apiOneHost = _config.GetValue<string>("ApiOneHost");
+
             services.AddAuthentication(config =>
             {
                 config.DefaultScheme = "Cookie";
@@ -30,7 +32,7 @@ namespace MvcClient
                 .AddCookie("Cookie")
                 .AddOpenIdConnect("oidc", config =>
                 {
-                    config.Authority = _config["AuthorityHost"];
+                    config.Authority = authorityHost;
                     config.ClientId = "client_id_mvc";
                     config.ClientSecret = "client_secret_mvc";
                     config.SaveTokens = true;
@@ -59,12 +61,17 @@ namespace MvcClient
                     config.Scope.Add("openid");
                     config.Scope.Add("ApiOne.user");
                     config.Scope.Add("ApiTwo.sec");
+                    // in order to get refresh_token
+                    config.Scope.Add("offline_access");
                 });
 
-            services.AddHttpClient("apiOne", config =>
+            services.AddHttpClient("identityServer", config =>
             {
-                var apiOneHost = _config.GetValue<string>("ApiOneHost");
+                config.BaseAddress = new Uri(authorityHost);
+            });
 
+            services.AddHttpClient("apiOne", config =>
+            { 
                 config.BaseAddress = new Uri(apiOneHost);
             });
 
