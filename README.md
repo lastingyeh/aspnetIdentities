@@ -44,23 +44,25 @@
 
 ## OAuth
 
-- AuthorizationCode
+## AuthorizationCode
 
   ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/oauth/oauth-authorizationCode.png)
 
 ## Identity Server 4
 
-- ClientCredentials
+### ClientCredentials
   
-  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-clientCredentials.png)
+![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-clientCredentials.png)
 
-- Authorization Code
-  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-code.png)
+### Authorization Code
 
-- Implicit
-  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-implicit.png)
+![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-code_v1.png)
 
-### Dockerize
+### Implicit
+
+![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-implicit.png)
+
+## Dockerize
 
 - docker-compose (/oauth)
 
