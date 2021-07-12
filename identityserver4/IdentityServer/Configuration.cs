@@ -74,12 +74,17 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.Implicit,
 
                     RedirectUris = {configSection["JsClient:RedirectUri"]},
+                    AllowedCorsOrigins = {"https://localhost:5004"},
 
                     AllowedScopes =
                     {
                         "ApiOne.user",
                         IdentityServerConstants.StandardScopes.OpenId,
+                        "rc.scope",
+                        "ApiTwo.sec",
                     },
+
+                    AccessTokenLifetime = 1,
 
                     AllowAccessTokensViaBrowser = true,
                 }

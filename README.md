@@ -54,6 +54,12 @@
   
   ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-clientCredentials.png)
 
+- Authorization Code
+  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-code.png)
+
+- Implicit
+  ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-implicit.png)
+
 ### Dockerize
 
 - docker-compose (/oauth)
@@ -84,3 +90,7 @@
 - [ASP.NET Core - Authentication & Authorization Tutorial (Claims/Identity/oAuth/oidc/IdentityServer4)](https://www.youtube.com/playlist?list=PLOeFnOV9YBa7dnrjpOG6lMpcyd7Wn7E8V)
 
 - [OpenId](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html#ResponseTypesAndModes)
+
+- [oidc-client](https://cdnjs.com/libraries/oidc-client)
+
+- [IdentityModel/oidc-client-js](https://github.com/IdentityModel/oidc-client-js)

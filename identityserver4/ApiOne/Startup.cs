@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
 
 namespace ApiOne
 {
@@ -25,7 +24,7 @@ namespace ApiOne
                 .AddJwtBearer("Bearer", config =>
                 {
                     var authorityHost = _config.GetValue<string>("AuthorityHost");
-                    
+
                     config.Authority = authorityHost;
                     config.Audience = "ApiOne";
 
@@ -34,6 +33,13 @@ namespace ApiOne
                     //     config.RequireHttpsMetadata = false;
                     // }
                 });
+
+            services.AddCors(config =>
+            {
+                config.AddPolicy("AllowAll", policy =>
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:5004")
+                );
+            });
 
             services.AddControllers();
         }
@@ -47,6 +53,8 @@ namespace ApiOne
 
                 // IdentityModelEventSource.ShowPII = true;
             }
+
+            app.UseCors("AllowAll");
 
             app.UseRouting();
 
