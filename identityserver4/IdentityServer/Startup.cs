@@ -20,7 +20,12 @@ namespace IdentityServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(config => config.UseInMemoryDatabase("Memory"));
+            var connectionString = _config.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AppDbContext>(config =>
+            {
+                config.UseSqlServer(connectionString);
+                // config.UseInMemoryDatabase("Memory");
+            });
 
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {
@@ -39,13 +44,25 @@ namespace IdentityServer
                 config.Cookie.Name = "IdentityServer.Cookie";
                 config.LoginPath = "/Auth/Login";
             });
-            
+
+            var assembly = typeof(Startup).Assembly.GetName().Name;
+
             services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
-                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-                .AddInMemoryApiResources(Configuration.GetApis())
-                .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
-                .AddInMemoryApiScopes(Configuration.GetScopes())
+                .AddConfigurationStore(opts =>
+                {
+                    opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                        sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                })
+                .AddOperationalStore(opts =>
+                {
+                    opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                        sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                })
+                // .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+                // .AddInMemoryApiResources(Configuration.GetApis())
+                // .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
+                // .AddInMemoryApiScopes(Configuration.GetApiScopes())
                 .AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();

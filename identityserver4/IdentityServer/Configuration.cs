@@ -9,6 +9,8 @@ namespace IdentityServer
     public static class Configuration
     {
         // configure in id_token
+        // IdentityResources
+        // IdentityResourceClaims
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             new List<IdentityResource>
             {
@@ -21,6 +23,9 @@ namespace IdentityServer
                 }
             };
         // Set resources with Api with scope and claims
+        // ApiResources
+        // ApiResourceClaims
+        // ApiResourceScopes
         public static IEnumerable<ApiResource> GetApis() =>
             new List<ApiResource>
             {
@@ -35,6 +40,12 @@ namespace IdentityServer
             };
 
         // Mapping to AddOpenIdConnect, eg: MvcClient
+        // Clients
+        // ClientSecrets
+        // ClientRedirectUris
+        // ClientGrantTypes
+        // ClientCorsOrigins
+        // ClientScopes
         public static IEnumerable<Client> GetClients(IConfigurationSection configSection) =>
             new List<Client>
             {
@@ -91,7 +102,8 @@ namespace IdentityServer
             };
 
         // Set all scope depende on Client.AllowScopes
-        public static IEnumerable<ApiScope> GetScopes() =>
+        // ApiScopes
+        public static IEnumerable<ApiScope> GetApiScopes() =>
             new List<ApiScope>
             {
                 new ApiScope("ApiOne.user"),

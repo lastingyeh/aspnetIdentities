@@ -57,7 +57,7 @@ namespace Client.Controllers
             var client = _httpClientFactory.CreateClient();
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}123");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
             return await client.GetAsync(new Uri(url));
         }
@@ -67,12 +67,12 @@ namespace Client.Controllers
         {
             var response = await initialRequest();
 
-            // if (response.StatusCode == HttpStatusCode.Unauthorized)
-            // {
-            //     await RefreshAccessToken();
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                await RefreshAccessToken();
 
-            //     response = await initialRequest();
-            // }
+                response = await initialRequest();
+            }
 
             return response;
         }

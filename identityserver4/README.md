@@ -16,8 +16,6 @@ GET /authorize?
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 ```
 
-
-
 ## ClientCredentials
 
 
@@ -36,3 +34,22 @@ GET /authorize?
     &state=af0ifjsldkj
     &nonce=n-0S6_WzA2Mj
 ```
+## AuthDb (sqlserver) 
+
+    $ docker-compose up --build -d authdb
+
+### Migration
+
+    $ dotnet ef migrations add InitAppDbMigration -c AppDbContext -o Data/Migrations/AppDbContextDb
+
+    $ dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/PersistedGrantDb
+
+    $ dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/ConfigurationDb
+
+### Update
+
+    $ dotnet ef database update -c AppDbContext
+
+    $ dotnet ef database update -c PersistedGrantDbContext
+
+    $ dotnet ef database update -c ConfigurationDbContext

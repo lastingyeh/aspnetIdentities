@@ -55,3 +55,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - 'AuthorityHost=http://identityserver:8000'
+
+  authdb:
+    container_name: authdb
+    image: mcr.microsoft.com/mssql/server
+    user: root
+    environment:
+      - 'SA_PASSWORD=1StrongPwd!!'
+      - 'ACCEPT_EULA=Y'
+    restart: always
+    ports:
+      - '1433:1433'

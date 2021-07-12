@@ -1,6 +1,9 @@
+using System;
 using System.Security.Claims;
+using IdentityServer.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,19 +15,20 @@ namespace IdentityServer
         {
             var host = CreateHostBuilder(args).Build();
 
-            using var scope = host.Services.CreateScope();
+            try
+            {
+                using var scope = host.Services.CreateScope();
 
-            var userManager = scope.ServiceProvider
-                .GetRequiredService<UserManager<IdentityUser>>();
-            var user = new IdentityUser("bob");
+                var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
-            userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
-            // place at id_token
-            userManager.AddClaimAsync(user, new Claim("rc.grandma", "bigcookie"))
-                .GetAwaiter().GetResult();
-            // place at access_token
-            userManager.AddClaimAsync(user, new Claim("rc.api.grandma", "big.api.cookie"))
-                .GetAwaiter().GetResult();
+                ContextData.MigrateAsync(scope).GetAwaiter().GetResult();
+
+                ContextData.SeedAsync(scope, config.GetSection("ClientSettings")).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             host.Run();
         }

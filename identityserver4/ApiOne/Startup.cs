@@ -19,7 +19,6 @@ namespace ApiOne
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", config =>
                 {
@@ -36,8 +35,10 @@ namespace ApiOne
 
             services.AddCors(config =>
             {
+                var JsClientHost = _config.GetValue<string>("JsClientHost");
+
                 config.AddPolicy("AllowAll", policy =>
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:5004")
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(JsClientHost)
                 );
             });
 
