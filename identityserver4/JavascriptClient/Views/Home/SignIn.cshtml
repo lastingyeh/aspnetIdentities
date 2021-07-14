@@ -4,7 +4,12 @@
 <script src="https://unpkg.com/axios@0.21.1/dist/axios.min.js"></script>
 
 <script>
-    var userManager = new Oidc.UserManager({userStore: new Oidc.WebStorageStateStore({store: window.localStorage})});
+    // var userManager = new Oidc.UserManager({userStore: new Oidc.WebStorageStateStore({store: window.localStorage})});
+    // required Pkce
+    var userManager = new Oidc.UserManager({
+        userStore: new Oidc.WebStorageStateStore({store: window.localStorage}),
+        response_mode: "query"
+    });
 
     userManager.signinCallback().then(res => {
         console.log(res);

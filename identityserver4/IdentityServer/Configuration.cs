@@ -78,10 +78,31 @@ namespace IdentityServer
                     // put all the claims in the id_token
                     // AlwaysIncludeUserClaimsInIdToken = true,
                 },
+                // new Client
+                // {
+                //     ClientId = "client_id_js",
+                //     AllowedGrantTypes = GrantTypes.Implicit,
+                //     RedirectUris = {configSection["JsClient:RedirectUri"]},
+                //     PostLogoutRedirectUris = {configSection["JsClient:RedirectLogoutUri"]},
+                //     AllowedCorsOrigins = {"https://localhost:5004"},
+                //     AllowedScopes =
+                //     {
+                //         "ApiOne.user",
+                //         IdentityServerConstants.StandardScopes.OpenId,
+                //         "rc.scope",
+                //         "ApiTwo.sec",
+                //     },
+                //     AccessTokenLifetime = 1,
+                //     AllowAccessTokensViaBrowser = true,
+                // },
                 new Client
                 {
                     ClientId = "client_id_js",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    // RequiredPkce
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
                     RedirectUris = {configSection["JsClient:RedirectUri"]},
                     PostLogoutRedirectUris = {configSection["JsClient:RedirectLogoutUri"]},
                     AllowedCorsOrigins = {"https://localhost:5004"},

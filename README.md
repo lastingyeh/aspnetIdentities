@@ -62,6 +62,10 @@
 
 ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-implicit.png)
 
+### External [Facebook]
+
+![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-facebook.png)
+
 ## Dockerize
 
 - docker-compose (/oauth)
