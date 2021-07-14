@@ -4,6 +4,7 @@ var config = {
 	client_id: 'client_id_js',
 	response_type: 'id_token token',
 	redirect_uri: 'https://localhost:5004/home/signin',
+	post_logout_redirect_uri: 'https://localhost:5004/home/index',
 	scope: 'openid ApiOne.user ApiTwo.sec rc.scope',
 };
 
@@ -11,6 +12,10 @@ var userManager = new Oidc.UserManager(config);
 
 var signIn = () => {
 	userManager.signinRedirect();
+};
+
+var signOut = () => {
+	userManager.signoutRedirect();
 };
 
 userManager.getUser().then(user => {
@@ -49,9 +54,9 @@ axios.interceptors.response.use(
 
 				return userManager.signinSilent().then(user => {
 					console.log('new user:', user);
-                    // update client
+					// update client
 					axios.defaults.headers.common['Authorization'] = `Bearer ${user.access_token}`;
-                    // update http request
+					// update http request
 					axiosConfig.headers['Authorization'] = `Bearer ${user.access_token}`;
 
 					return axios(axiosConfig);

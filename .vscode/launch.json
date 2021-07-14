@@ -99,7 +99,7 @@
             "configurations": [
                 "Identity Server",
                 "Client Mvc",
-                // "Api One",
+                "Api One",
                 // "Api Two"
             ]
         }

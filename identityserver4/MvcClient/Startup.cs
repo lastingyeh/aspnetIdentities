@@ -44,6 +44,8 @@ namespace MvcClient
                     // response_type 
                     config.ResponseType = "code";
 
+                    config.SignedOutCallbackPath = "/Home/Index";
+
                     // configure cookie claim mapping (rc.grandma map to RawCoding.Grandma at claim)
                     config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.grandma");
 

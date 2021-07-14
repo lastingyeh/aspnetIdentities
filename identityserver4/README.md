@@ -1,6 +1,6 @@
 # Identity Server
 
-- [configuration](https://localhost:5000/.well-known/openid-configuration)
+## [Configuration](https://localhost:5000/.well-known/openid-configuration)
 
 ## Authorization Code
 
@@ -17,7 +17,6 @@ GET /authorize?
 ```
 
 ## ClientCredentials
-
 
 ## Implicit Flow
 
@@ -53,3 +52,43 @@ GET /authorize?
     $ dotnet ef database update -c PersistedGrantDbContext
 
     $ dotnet ef database update -c ConfigurationDbContext
+
+### Drop
+
+    $ dotnet ef database drop -c ConfigurationDbContext
+
+## Certificate
+
+```powshell
+# create certificate
+$cert = New-SelfSignedCertificate -Subject "CN=IdentityServerEx" -CertStoreLocation cert:\CurrentUser\My -Provider "Microsoft strong Cryptographic Provider"
+
+# get current certificate
+Get-ChildItem -Path cert:\CurrentUser\My
+
+# remove certificate 
+Remove-Item -Path ("cert:\CurrentUser\My\<certificateId>")
+
+# check $cert
+$cert = Get-ChildItem -Path cert:\CurrentUser\My | ?{$_.Subject -eq "CN=IdentityServerEx"}
+
+# get credential
+$cred = Get-Credential
+
+# export cert
+Export-PfxCertificate -Cert $cert -Password $cred.Password -FilePath "./ids_cert.pfx"
+
+```
+## Dotnet user-secrets
+```bash
+# create user-secrets
+$ dotnet user-secrets init
+
+
+# set user-secrets
+$ dotnet user-secrets set "Facebook:AppId" "id-valuexxx"
+$ dotnet user-secrets set "Facebook:AppSecret" "secret-valuexxxx"
+
+# list user-secrets
+$ dotnet user-secrets list
+```

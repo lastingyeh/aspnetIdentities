@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+using System.IO;
 using IdentityServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,8 +14,10 @@ namespace IdentityServer
     public class Startup
     {
         private readonly IConfiguration _config;
-        public Startup(IConfiguration config)
+        private readonly IHostEnvironment _env;
+        public Startup(IConfiguration config, IHostEnvironment env)
         {
+            _env = env;
             _config = config;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -43,9 +47,14 @@ namespace IdentityServer
             {
                 config.Cookie.Name = "IdentityServer.Cookie";
                 config.LoginPath = "/Auth/Login";
+                config.LogoutPath = "/Auth/Logout";
             });
 
             var assembly = typeof(Startup).Assembly.GetName().Name;
+
+            // cert setting
+            // var filePath = Path.Combine(_env.ContentRootPath, "ids_cert.pfx");
+            // var certificate = new X509Certificate2(filePath, _config.GetValue<string>("CertPassword"));
 
             services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
@@ -64,6 +73,14 @@ namespace IdentityServer
                 // .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
                 // .AddInMemoryApiScopes(Configuration.GetApiScopes())
                 .AddDeveloperSigningCredential();
+            // .AddSigningCredential(certificate);
+
+            services.AddAuthentication()
+                .AddFacebook(config =>
+                {
+                    config.AppId = _config.GetValue<string>("Facebook:AppId");
+                    config.AppSecret = _config.GetValue<string>("Facebook:AppSecret");
+                });
 
             services.AddControllersWithViews();
         }

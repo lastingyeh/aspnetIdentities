@@ -46,6 +46,7 @@ namespace IdentityServer
         // ClientGrantTypes
         // ClientCorsOrigins
         // ClientScopes
+        // ClientPostLogoutRedirectUris
         public static IEnumerable<Client> GetClients(IConfigurationSection configSection) =>
             new List<Client>
             {
@@ -60,11 +61,9 @@ namespace IdentityServer
                 {
                     ClientId = "client_id_mvc",
                     ClientSecrets = {new Secret("client_secret_mvc".ToSha256())},
-
                     AllowedGrantTypes = GrantTypes.Code,
-
                     RedirectUris = {configSection["MvcClient:RedirectUri"]},
-
+                    PostLogoutRedirectUris = {configSection["MvcClient:RedirectLogoutUri"]},
                     AllowedScopes =
                     {
                         "ApiOne.user",
@@ -83,10 +82,9 @@ namespace IdentityServer
                 {
                     ClientId = "client_id_js",
                     AllowedGrantTypes = GrantTypes.Implicit,
-
                     RedirectUris = {configSection["JsClient:RedirectUri"]},
+                    PostLogoutRedirectUris = {configSection["JsClient:RedirectLogoutUri"]},
                     AllowedCorsOrigins = {"https://localhost:5004"},
-
                     AllowedScopes =
                     {
                         "ApiOne.user",
@@ -94,9 +92,7 @@ namespace IdentityServer
                         "rc.scope",
                         "ApiTwo.sec",
                     },
-
                     AccessTokenLifetime = 1,
-
                     AllowAccessTokensViaBrowser = true,
                 }
             };

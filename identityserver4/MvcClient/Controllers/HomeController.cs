@@ -32,10 +32,18 @@ namespace MvcClient.Controllers
 
             var claims = User.Claims;
 
-            // var result = await GetSecret(accessToken);
+            var result = await GetSecret(accessToken);
+            
             await RefreshAccessToken();
 
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Logout()
+        {
+            // remove authentication includes all
+            return SignOut("Cookie", "oidc");
         }
 
         private async Task<string> GetSecret(string accessToken)
@@ -74,7 +82,7 @@ namespace MvcClient.Controllers
             authInfo.Properties.UpdateTokenValue("access_token", tokenResponse.AccessToken);
             authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
 
-            await HttpContext.SignInAsync("Cookie", authInfo.Principal, authInfo.Properties);           
+            await HttpContext.SignInAsync("Cookie", authInfo.Principal, authInfo.Properties);
         }
 
         private async Task TokenVerify(TokenResponse response)
