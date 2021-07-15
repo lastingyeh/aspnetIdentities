@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ApiOne
 {
@@ -25,8 +26,7 @@ namespace ApiOne
                     var authorityHost = _config.GetValue<string>("AuthorityHost");
 
                     config.Authority = authorityHost;
-                    config.Audience = "ApiOne";
-
+                    config.Audience = "Ebiz";
                     // if (_env.IsDevelopment())
                     // {
                     //     config.RequireHttpsMetadata = false;
@@ -36,9 +36,10 @@ namespace ApiOne
             services.AddCors(config =>
             {
                 var JsClientHost = _config.GetValue<string>("JsClientHost");
+                var AngularClientHost = _config.GetValue<string>("AngularClientHost");
 
-                config.AddPolicy("AllowAll", policy =>
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(JsClientHost)
+                config.AddPolicy("AllowHosts", policy =>
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(JsClientHost, AngularClientHost)
                 );
             });
 
@@ -55,7 +56,7 @@ namespace ApiOne
                 // IdentityModelEventSource.ShowPII = true;
             }
 
-            app.UseCors("AllowAll");
+            app.UseCors("AllowHosts");
 
             app.UseRouting();
 

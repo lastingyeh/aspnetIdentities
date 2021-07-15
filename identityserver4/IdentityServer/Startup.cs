@@ -25,10 +25,11 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = _config.GetConnectionString("DefaultConnection");
+            
             services.AddDbContext<AppDbContext>(config =>
             {
-                config.UseSqlServer(connectionString);
-                // config.UseInMemoryDatabase("Memory");
+                // config.UseSqlServer(connectionString);
+                config.UseInMemoryDatabase("Memory");
             });
 
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
@@ -58,20 +59,20 @@ namespace IdentityServer
 
             services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
-                .AddConfigurationStore(opts =>
-                {
-                    opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
-                        sqlOptions => sqlOptions.MigrationsAssembly(assembly));
-                })
-                .AddOperationalStore(opts =>
-                {
-                    opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
-                        sqlOptions => sqlOptions.MigrationsAssembly(assembly));
-                })
-                // .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-                // .AddInMemoryApiResources(Configuration.GetApis())
-                // .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
-                // .AddInMemoryApiScopes(Configuration.GetApiScopes())
+                // .AddConfigurationStore(opts =>
+                // {
+                //     opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                //         sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                // })
+                // .AddOperationalStore(opts =>
+                // {
+                //     opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                //         sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                // })
+                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+                .AddInMemoryApiResources(Configuration.GetApis())
+                .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
+                .AddInMemoryApiScopes(Configuration.GetApiScopes())
                 .AddDeveloperSigningCredential();
             // .AddSigningCredential(certificate);
 

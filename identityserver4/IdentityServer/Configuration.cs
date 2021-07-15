@@ -29,9 +29,9 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> GetApis() =>
             new List<ApiResource>
             {
-                new ApiResource("ApiOne")
+                new ApiResource("Ebiz")
                 {
-                    Scopes = {"ApiOne.user"}
+                    Scopes = {"Ebiz.sap", "Ebiz.crm"}
                 },
                 new ApiResource("ApiTwo", new string[]{"rc.api.grandma"})
                 {
@@ -55,7 +55,7 @@ namespace IdentityServer
                     ClientId = "client_id",
                     ClientSecrets = {new Secret("client_secret".ToSha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"ApiOne.user"}
+                    AllowedScopes = {"Ebiz.sap", "Ebiz.crm"}
                 },
                 new Client
                 {
@@ -66,7 +66,7 @@ namespace IdentityServer
                     PostLogoutRedirectUris = {configSection["MvcClient:RedirectLogoutUri"]},
                     AllowedScopes =
                     {
-                        "ApiOne.user",
+                        "Ebiz.sap",
                         "ApiTwo.sec",
                         IdentityServerConstants.StandardScopes.OpenId,
                         // IdentityServerConstants.StandardScopes.Profile,
@@ -105,15 +105,34 @@ namespace IdentityServer
 
                     RedirectUris = {configSection["JsClient:RedirectUri"]},
                     PostLogoutRedirectUris = {configSection["JsClient:RedirectLogoutUri"]},
-                    AllowedCorsOrigins = {"https://localhost:5004"},
+                    AllowedCorsOrigins = {configSection["JsClient:Host"]},
                     AllowedScopes =
                     {
-                        "ApiOne.user",
+                        "Ebiz.sap",
                         IdentityServerConstants.StandardScopes.OpenId,
                         "rc.scope",
                         "ApiTwo.sec",
                     },
                     AccessTokenLifetime = 1,
+                    AllowAccessTokensViaBrowser = true,
+                },
+                new Client
+                {
+                    ClientId = "angular",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    // RequiredPkce
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = {configSection["AngularClient:RedirectUri"]},
+                    PostLogoutRedirectUris = {configSection["AngularClient:RedirectLogoutUri"]},
+                    AllowedCorsOrigins = {configSection["AngularClient:Host"]},
+                    AllowedScopes =
+                    {
+                        "Ebiz.sap",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "rc.scope",
+                    },
                     AllowAccessTokensViaBrowser = true,
                 }
             };
@@ -123,7 +142,8 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> GetApiScopes() =>
             new List<ApiScope>
             {
-                new ApiScope("ApiOne.user"),
+                new ApiScope("Ebiz.sap"),
+                new ApiScope("Ebiz.crm"),
                 new ApiScope("ApiTwo.sec"),
                 // new ApiScope("rc.api.grandma")
             };

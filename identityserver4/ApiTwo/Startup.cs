@@ -1,11 +1,9 @@
 using System;
-using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
 
 namespace ApiTwo
 {
@@ -51,7 +49,7 @@ namespace ApiTwo
             //     return handler;
             // });
 
-            services.AddHttpClient("apiOne", config =>
+            services.AddHttpClient("Ebiz", config =>
             {
                 config.BaseAddress = new Uri(apiOneHost);
             });

@@ -19,9 +19,9 @@ namespace IdentityServer
 
                 var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
-                ContextData.MigrateAsync(scope).GetAwaiter().GetResult();
+                // ContextData.MigrateAsync(scope).GetAwaiter().GetResult();
 
-                ContextData.SeedAsync(scope, config.GetSection("ClientSettings")).GetAwaiter().GetResult();
+                // ContextData.SeedAsync(scope, config.GetSection("ClientSettings")).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {

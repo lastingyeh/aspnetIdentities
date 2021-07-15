@@ -100,3 +100,5 @@
 - [oidc-client](https://cdnjs.com/libraries/oidc-client)
 
 - [IdentityModel/oidc-client-js](https://github.com/IdentityModel/oidc-client-js)
+  
+- [angluar-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client)

@@ -31,13 +31,13 @@ namespace ApiTwo.Controllers
                     ClientId = "client_id",
                     ClientSecret = "client_secret",
 
-                    Scope = "ApiOne.user",
+                    // Scope = "Ebiz",
                 });
 
             var accessToken = tokenResponse.AccessToken;
 
             // retrieve secret data
-            var apiClient = _httpClientFactory.CreateClient("apiOne");
+            var apiClient = _httpClientFactory.CreateClient("Ebiz");
 
             apiClient.SetBearerToken(accessToken);
 

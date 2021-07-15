@@ -98,9 +98,9 @@
             "name": "IdentityServer4",
             "configurations": [
                 "Identity Server",
-                "Client Mvc",
+                // "Client Mvc",
                 "Api One",
-                // "Api Two"
+                "Api Two"
             ]
         }
     ]
