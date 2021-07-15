@@ -41,13 +41,16 @@ namespace ApiTwo.Controllers
 
             apiClient.SetBearerToken(accessToken);
 
-            var response = await apiClient.GetAsync("/secret");
-            var content = await response.Content.ReadAsStringAsync();
+            var sapResponse = await apiClient.GetAsync("/secret/sap");
+            var crmResponse = await apiClient.GetAsync("/secret/crm");
+
+            var sapContent = await sapResponse.Content.ReadAsStringAsync();
+            var crmContent = await crmResponse.Content.ReadAsStringAsync();
 
             return Ok(new
             {
                 access_token = accessToken,
-                message = content,
+                message = sapContent + ',' + crmContent,
             });
         }
     }

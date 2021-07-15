@@ -76,12 +76,12 @@ namespace IdentityServer
                 .AddDeveloperSigningCredential();
             // .AddSigningCredential(certificate);
 
-            services.AddAuthentication()
-                .AddFacebook(config =>
-                {
-                    config.AppId = _config.GetValue<string>("Facebook:AppId");
-                    config.AppSecret = _config.GetValue<string>("Facebook:AppSecret");
-                });
+            // services.AddAuthentication()
+            //     .AddFacebook(config =>
+            //     {
+            //         config.AppId = _config.GetValue<string>("Facebook:AppId");
+            //         config.AppSecret = _config.GetValue<string>("Facebook:AppSecret");
+            //     });
 
             services.AddControllersWithViews();
         }

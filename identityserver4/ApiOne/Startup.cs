@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ApiOne
 {
@@ -32,6 +31,12 @@ namespace ApiOne
                     //     config.RequireHttpsMetadata = false;
                     // }
                 });
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("CRM", policyBuilder => policyBuilder.RequireClaim("Scope", "Ebiz.crm"));
+                config.AddPolicy("SAP", policyBuilder => policyBuilder.RequireClaim("Scope", "Ebiz.sap"));
+            });
 
             services.AddCors(config =>
             {

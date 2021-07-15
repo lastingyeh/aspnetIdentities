@@ -55,7 +55,7 @@ namespace IdentityServer
                     ClientId = "client_id",
                     ClientSecrets = {new Secret("client_secret".ToSha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"Ebiz.sap", "Ebiz.crm"}
+                    AllowedScopes = {"Ebiz.sap"}
                 },
                 new Client
                 {
@@ -137,7 +137,7 @@ namespace IdentityServer
                 }
             };
 
-        // Set all scope depende on Client.AllowScopes
+        // Set all scope depend on Client.AllowScopes
         // ApiScopes
         public static IEnumerable<ApiScope> GetApiScopes() =>
             new List<ApiScope>
