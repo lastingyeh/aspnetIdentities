@@ -1,6 +1,5 @@
-using System.Security.Cryptography.X509Certificates;
-using System.IO;
 using IdentityServer.Data;
+using IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using IdentityServer4.Services;
 
 namespace IdentityServer
 {
@@ -20,16 +20,22 @@ namespace IdentityServer
             _env = env;
             _config = config;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = _config.GetConnectionString("DefaultConnection");
-            
+            var inMemory = _config.GetValue<bool>("InMemory");
+
             services.AddDbContext<AppDbContext>(config =>
             {
-                // config.UseSqlServer(connectionString);
-                config.UseInMemoryDatabase("Memory");
+                if (inMemory)
+                {
+                    config.UseInMemoryDatabase("Memory");
+                }
+                else
+                {
+                    config.UseSqlServer(connectionString);
+                }
             });
 
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
@@ -51,42 +57,51 @@ namespace IdentityServer
                 config.LogoutPath = "/Auth/Logout";
             });
 
-            var assembly = typeof(Startup).Assembly.GetName().Name;
+            if (inMemory)
+            {
+                services.AddIdentityServer()
+                    .AddAspNetIdentity<IdentityUser>()
+                    .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+                    .AddInMemoryApiResources(Configuration.GetApis())
+                    .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
+                    .AddInMemoryApiScopes(Configuration.GetApiScopes())
+                    .AddDeveloperSigningCredential()
+                    .Services.AddTransient<IProfileService, ProfileService>();
+            }
+            else
+            {
+                // cert setting
+                // var filePath = Path.Combine(_env.ContentRootPath, "ids_cert.pfx");
+                // var certificate = new X509Certificate2(filePath, _config.GetValue<string>("CertPassword"));
 
-            // cert setting
-            // var filePath = Path.Combine(_env.ContentRootPath, "ids_cert.pfx");
-            // var certificate = new X509Certificate2(filePath, _config.GetValue<string>("CertPassword"));
+                var assembly = typeof(Startup).Assembly.GetName().Name;
 
-            services.AddIdentityServer()
-                .AddAspNetIdentity<IdentityUser>()
-                // .AddConfigurationStore(opts =>
-                // {
-                //     opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
-                //         sqlOptions => sqlOptions.MigrationsAssembly(assembly));
-                // })
-                // .AddOperationalStore(opts =>
-                // {
-                //     opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
-                //         sqlOptions => sqlOptions.MigrationsAssembly(assembly));
-                // })
-                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-                .AddInMemoryApiResources(Configuration.GetApis())
-                .AddInMemoryClients(Configuration.GetClients(_config.GetSection("ClientSettings")))
-                .AddInMemoryApiScopes(Configuration.GetApiScopes())
-                .AddDeveloperSigningCredential();
-            // .AddSigningCredential(certificate);
+                services.AddIdentityServer()
+                    .AddAspNetIdentity<IdentityUser>()
+                    .AddConfigurationStore(opts =>
+                    {
+                        opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                            sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                    })
+                    .AddOperationalStore(opts =>
+                    {
+                        opts.ConfigureDbContext = dbBuilder => dbBuilder.UseSqlServer(connectionString,
+                            sqlOptions => sqlOptions.MigrationsAssembly(assembly));
+                    })
+                    .AddDeveloperSigningCredential();
+                // .AddSigningCredential(certificate);
+            }
 
-            // services.AddAuthentication()
-            //     .AddFacebook(config =>
-            //     {
-            //         config.AppId = _config.GetValue<string>("Facebook:AppId");
-            //         config.AppSecret = _config.GetValue<string>("Facebook:AppSecret");
-            //     });
+            services.AddAuthentication()
+                .AddFacebook(config =>
+                {
+                    config.AppId = _config.GetValue<string>("Facebook:AppId");
+                    config.AppSecret = _config.GetValue<string>("Facebook:AppSecret");
+                });
 
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

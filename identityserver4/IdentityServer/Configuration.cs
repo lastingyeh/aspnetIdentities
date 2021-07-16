@@ -29,10 +29,11 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> GetApis() =>
             new List<ApiResource>
             {
-                new ApiResource("Ebiz")
+                new ApiResource("Ebiz", new string[]{"erp.id"})
                 {
                     Scopes = {"Ebiz.sap", "Ebiz.crm"}
                 },
+                // add claims 
                 new ApiResource("ApiTwo", new string[]{"rc.api.grandma"})
                 {
                     Scopes = {"ApiTwo.sec"}

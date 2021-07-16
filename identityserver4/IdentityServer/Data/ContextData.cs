@@ -12,18 +12,18 @@ namespace IdentityServer.Data
 {
     public static class ContextData
     {
-        public static async Task MigrateAsync(IServiceScope scope)
+        public static async Task MigrateAndSeedAsync(IServiceScope scope, bool inMemory)
         {
-            await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
+            if (!inMemory)
+            {
+                await AddConfiguration(scope);
 
-            await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
+                await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
+                await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
+                await scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.MigrateAsync();
+            }
 
-            await scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.MigrateAsync();
-        }
-        public static async Task SeedAsync(IServiceScope scope, IConfigurationSection config)
-        {
             await AddUser(scope);
-            await AddConfiguration(scope, config);
         }
 
         private static async Task AddUser(IServiceScope scope)
@@ -39,16 +39,19 @@ namespace IdentityServer.Data
                 await userManager.AddClaimAsync(user, new Claim("rc.grandma", "bigcookie"));
                 // place at access_token
                 await userManager.AddClaimAsync(user, new Claim("rc.api.grandma", "big.api.cookie"));
+                // place personal claims
+                await userManager.AddClaimAsync(user, new Claim("erp.id", "myerpid"));
             }
         }
 
-        private static async Task AddConfiguration(IServiceScope scope, IConfigurationSection config)
+        private static async Task AddConfiguration(IServiceScope scope)
         {
+            var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
             if (!context.Clients.Any())
             {
-                foreach (var client in Configuration.GetClients(config))
+                foreach (var client in Configuration.GetClients(config.GetSection("ClientSettings")))
                 {
                     context.Clients.Add(client.ToEntity());
                 }

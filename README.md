@@ -21,7 +21,7 @@
     - Add Custom claim
   - Custom Authorization Policy Provider (DefaultAuthorizationPolicyProvider)
     - Rank => RequireClaim("Rank")
-    - ecurityLevel => SecurityLevelHandler (requirement.Level <= claimLevel)
+    - securityLevel => SecurityLevelHandler (requirement.Level <= claimLevel)
     - AuthorizeAttribute inherited
 
 ## IdentityExample
@@ -66,7 +66,7 @@
 
 ![alt tag](https://github.com/lastingyeh/aspnetIdentities/blob/master/identityserver4/id4-facebook.png)
 
-## Dockerize
+## Docker
 
 - docker-compose (/oauth)
 
@@ -90,7 +90,6 @@
       - ~/.aspnet/https:/https:ro 
         
     ```
-
 ## References
   
 - [ASP.NET Core - Authentication & Authorization Tutorial (Claims/Identity/oAuth/oidc/IdentityServer4)](https://www.youtube.com/playlist?list=PLOeFnOV9YBa7dnrjpOG6lMpcyd7Wn7E8V)
@@ -101,4 +100,4 @@
 
 - [IdentityModel/oidc-client-js](https://github.com/IdentityModel/oidc-client-js)
   
-- [angluar-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client)
+- [angular-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client)

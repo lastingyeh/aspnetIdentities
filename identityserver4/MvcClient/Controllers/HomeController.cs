@@ -36,6 +36,8 @@ namespace MvcClient.Controllers
             
             await RefreshAccessToken();
 
+            ViewBag.result = result;
+
             return View();
         }
 
@@ -52,10 +54,13 @@ namespace MvcClient.Controllers
 
             apiClient.SetBearerToken(accessToken);
 
-            var response = await apiClient.GetAsync("/secret");
-            var content = await response.Content.ReadAsStringAsync();
+            var sapResponse = await apiClient.GetAsync("/secret/sap");
+            var crmResponse = await apiClient.GetAsync("/secret/crm");
 
-            return content;
+            var sapContent = await sapResponse.Content.ReadAsStringAsync();
+            var crmContent = await crmResponse.Content.ReadAsStringAsync();
+
+            return sapContent;
         }
 
         private async Task RefreshAccessToken()

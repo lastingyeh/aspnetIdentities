@@ -2,6 +2,10 @@
 
 ## [Configuration](https://localhost:5000/.well-known/openid-configuration)
 
+## [Template](https://github.com/IdentityServer/IdentityServer4.Templates)
+    
+      $ dotnet new -i identityserver4.templates
+
 ## Authorization Code
 
 - response_type
@@ -59,7 +63,7 @@ GET /authorize?
 
 ## Certificate
 
-```powshell
+```powershell
 # create certificate
 $cert = New-SelfSignedCertificate -Subject "CN=IdentityServerEx" -CertStoreLocation cert:\CurrentUser\My -Provider "Microsoft strong Cryptographic Provider"
 

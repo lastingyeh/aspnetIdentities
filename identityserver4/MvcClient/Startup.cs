@@ -53,7 +53,7 @@ namespace MvcClient
                     config.ClaimActions.DeleteClaim("amr");
                     config.ClaimActions.DeleteClaim("s_hash");
 
-                    // two trips to load cliams in to the cookie but id_token make smaller
+                    // two trips to load claims in to the cookie but id_token make smaller
                     config.GetClaimsFromUserInfoEndpoint = true;
 
                     // add scope if need
@@ -61,8 +61,8 @@ namespace MvcClient
                     // add additional scope
                     config.Scope.Add("rc.scope");
                     config.Scope.Add("openid");
-                    config.Scope.Add("ApiOne.user");
-                    config.Scope.Add("ApiTwo.sec");
+                    config.Scope.Add("Ebiz.sap");
+                    // config.Scope.Add("ApiTwo.sec");
                     // in order to get refresh_token
                     config.Scope.Add("offline_access");
                 });

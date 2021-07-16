@@ -1,7 +1,6 @@
 using System;
 using IdentityServer.Data;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,11 +16,7 @@ namespace IdentityServer
             {
                 using var scope = host.Services.CreateScope();
 
-                var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-
-                // ContextData.MigrateAsync(scope).GetAwaiter().GetResult();
-
-                // ContextData.SeedAsync(scope, config.GetSection("ClientSettings")).GetAwaiter().GetResult();
+                ContextData.MigrateAndSeedAsync(scope, inMemory: true).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {

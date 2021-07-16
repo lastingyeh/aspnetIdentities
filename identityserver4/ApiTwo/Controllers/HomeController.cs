@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
@@ -22,7 +23,7 @@ namespace ApiTwo.Controllers
             // var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(
             //     new DiscoveryDocumentRequest { Policy = new DiscoveryPolicy { RequireHttps = false } });
             var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync();
-                
+
             var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
                 new ClientCredentialsTokenRequest
                 {
@@ -30,7 +31,7 @@ namespace ApiTwo.Controllers
 
                     ClientId = "client_id",
                     ClientSecret = "client_secret",
-
+                    Parameters = { { "username", "bob" } }
                     // Scope = "Ebiz",
                 });
 
