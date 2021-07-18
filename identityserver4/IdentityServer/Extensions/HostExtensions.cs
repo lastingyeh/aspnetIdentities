@@ -1,28 +1,31 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityServer.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace IdentityServer.Data
+namespace IdentityServer.Extensions
 {
-    public static class ContextData
+    public static class HostExtensions
     {
-        public static async Task MigrateAndSeedAsync(IServiceScope scope, bool inMemory)
+        public static async Task MigrateAndSeedAsync(this IHost host, bool inMemory)
         {
+            using var scope = host.Services.CreateScope();
+        
             if (!inMemory)
             {
-                await AddConfiguration(scope);
-
                 await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
                 await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
                 await scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.MigrateAsync();
+                
+                await AddConfiguration(scope);
             }
-
             await AddUser(scope);
         }
 

@@ -1,5 +1,6 @@
 using System;
 using IdentityServer.Data;
+using IdentityServer.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,9 +15,7 @@ namespace IdentityServer
 
             try
             {
-                using var scope = host.Services.CreateScope();
-
-                ContextData.MigrateAndSeedAsync(scope, inMemory: true).GetAwaiter().GetResult();
+                host.MigrateAndSeedAsync(inMemory: true).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {

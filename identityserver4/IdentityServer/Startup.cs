@@ -59,7 +59,12 @@ namespace IdentityServer
 
             if (inMemory)
             {
-                services.AddIdentityServer()
+                services.AddIdentityServer(opts =>
+                    {
+                        opts.Events.RaiseSuccessEvents = true;
+                        opts.Events.RaiseFailureEvents = true;
+                        opts.Events.RaiseErrorEvents = true;
+                    })
                     .AddAspNetIdentity<IdentityUser>()
                     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                     .AddInMemoryApiResources(Configuration.GetApis())

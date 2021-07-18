@@ -101,3 +101,5 @@
 - [IdentityModel/oidc-client-js](https://github.com/IdentityModel/oidc-client-js)
   
 - [angular-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client)
+
+- [damienbod/AspNetCoreIdentityServer4ResourceOwnerPassword](https://github.com/damienbod/AspNetCoreIdentityServer4ResourceOwnerPassword)
