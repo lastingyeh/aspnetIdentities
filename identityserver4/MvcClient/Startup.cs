@@ -58,11 +58,12 @@ namespace MvcClient
 
                     // add scope if need
                     config.Scope.Clear();
+                    // config.Scope.Add("openid");
                     // add additional scope
                     config.Scope.Add("rc.scope");
                     config.Scope.Add("openid");
                     config.Scope.Add("Ebiz.sap");
-                    // config.Scope.Add("ApiTwo.sec");
+                    config.Scope.Add("ApiTwo.sec");
                     // in order to get refresh_token
                     config.Scope.Add("offline_access");
                 });

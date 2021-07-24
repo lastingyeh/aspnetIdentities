@@ -17,7 +17,7 @@ namespace CustomIdentityServer.UserServices
             {
                 var user = _userRepository.FindByUsername(context.UserName);
 
-                context.Result = new GrantValidationResult(user.SubjectId, OidcConstants.AuthenticationMethods.Password);
+                context.Result = new GrantValidationResult(user.Id.ToString(), OidcConstants.AuthenticationMethods.Password);
             }
 
             return Task.CompletedTask;

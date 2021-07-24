@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace CustomIdentityServer.UserServices
@@ -6,7 +7,7 @@ namespace CustomIdentityServer.UserServices
     {
         bool ValidateCredentials(string username, string password);
 
-        Task<CustomUser> FindBySubjectId(string subjectId);
+        Task<CustomUser> FindBySubjectId(Guid Id);
 
         CustomUser FindByUsername(string username);
     }

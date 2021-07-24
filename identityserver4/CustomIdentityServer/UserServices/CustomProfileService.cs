@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace CustomIdentityServer.UserServices
         }
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var sub = context.Subject.GetSubjectId();
+            var sub = Guid.Parse(context.Subject.GetSubjectId());
 
             _logger.LogDebug("Get profile called for subject {subject} from client {client} with claim types {claimTypes} via {caller}",
                 context.Subject.GetSubjectId(),
@@ -27,7 +28,7 @@ namespace CustomIdentityServer.UserServices
                 context.RequestedClaimTypes,
                 context.Caller);
 
-            var user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
+            var user = await _userRepository.FindBySubjectId(sub);
             var claims = new List<Claim>
             {
                 new Claim("role", "dataEventRecords.admin"),
@@ -41,8 +42,8 @@ namespace CustomIdentityServer.UserServices
 
         public async Task IsActiveAsync(IsActiveContext context)
         {
-            var sub = context.Subject.GetSubjectId();
-            var user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
+            var sub = Guid.Parse(context.Subject.GetSubjectId());
+            var user = await _userRepository.FindBySubjectId(sub);
 
             context.IsActive = user != null;
         }

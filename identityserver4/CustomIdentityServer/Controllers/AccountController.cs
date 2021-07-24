@@ -67,7 +67,7 @@ namespace CustomIdentityServer.Controllers
                     }
 
                     var user = _userRepository.FindByUsername(model.Username);
-                    var idUser = new IdentityServerUser(user.SubjectId)
+                    var idUser = new IdentityServerUser(user.Id.ToString())
                     {
                         DisplayName = user.UserName,
                     };

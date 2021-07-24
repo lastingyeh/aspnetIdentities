@@ -39,7 +39,8 @@ namespace CustomIdentityServer
         public static IEnumerable<Client> GetClients() =>
             new List<Client>
             {
-                new Client{
+                new Client
+                {
                     ClientId = "resourceownerclient",
                     ClientSecrets = new List<Secret> { new Secret("dataEventRecordsSecret".Sha256())},
 
@@ -62,7 +63,20 @@ namespace CustomIdentityServer
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "dataEventRecordsScope",
                     }
-                }
+                },
+                new Client
+                {
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = {new Secret("client_secret_mvc".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = {"https://localhost:5003/signin-oidc"},
+                    PostLogoutRedirectUris = {"https://localhost:5003/home/index"},
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    },
+                },
             };
     }
 }

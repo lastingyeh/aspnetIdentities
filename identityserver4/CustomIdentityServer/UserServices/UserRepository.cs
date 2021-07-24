@@ -9,22 +9,24 @@ namespace CustomIdentityServer.UserServices
     {
         private readonly List<CustomUser> _users = new List<CustomUser>
         {
-            new CustomUser{
-                SubjectId = "123",
+            new CustomUser
+            {
+                Id = Guid.NewGuid(),
                 UserName = "damienbod",
                 Password = "damienbod",
                 Email = "damienbod@email.ch"
             },
-            new CustomUser{
-                SubjectId = "124",
+            new CustomUser
+            {
+                Id = Guid.NewGuid(),
                 UserName = "raphael",
                 Password = "raphael",
                 Email = "raphael@email.ch"
             },
         };
-        public Task<CustomUser> FindBySubjectId(string subjectId)
+        public Task<CustomUser> FindBySubjectId(Guid id)
         {
-            var user = _users.FirstOrDefault(x => x.SubjectId == subjectId);
+            var user = _users.FirstOrDefault(x => x.Id == id);
 
             return Task.FromResult(user);
         }

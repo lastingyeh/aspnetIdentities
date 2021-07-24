@@ -57,9 +57,10 @@ namespace CustomIdentityServer
 
             app.UseStaticFiles();
 
-            app.UseIdentityServer();
             
             app.UseRouting();
+            
+            app.UseIdentityServer();
 
             app.UseAuthentication();
             app.UseAuthorization();
