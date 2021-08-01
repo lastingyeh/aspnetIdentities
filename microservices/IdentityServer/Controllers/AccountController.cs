@@ -2,8 +2,10 @@ using IdentityServer.Extensions;
 using IdentityServer.Models;
 using IdentityServer.Services;
 using IdentityServer.ViewModels.Login;
+using IdentityServer.ViewModels.Logout;
 using IdentityServer4;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
@@ -23,8 +25,8 @@ namespace IdentityServer.Controllers
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
         private readonly TestUserStore _users;
-        private readonly ViewModelService _viewModelService;
-        public AccountController(IIdentityServerInteractionService interaction, IEventService events, ViewModelService viewModelService, TestUserStore users = null)
+        private readonly ViewModelBuilderService _viewModelService;
+        public AccountController(IIdentityServerInteractionService interaction, IEventService events, ViewModelBuilderService viewModelService, TestUserStore users = null)
         {
             _viewModelService = viewModelService;
             _users = users ?? new TestUserStore(TestUsers.Users);
@@ -50,10 +52,10 @@ namespace IdentityServer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
-             // check if we are in the context of an authorization request
+            // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
-              // the user clicked the "cancel" button
+            // the user clicked the "cancel" button
             if (button != "login")
             {
                 if (context != null)
@@ -86,13 +88,13 @@ namespace IdentityServer.Controllers
                 if (_users.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = _users.FindByUsername(model.Username);
-                    
+
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.Client.ClientId));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
-                    
+
                     if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                     {
                         props = new AuthenticationProperties
@@ -139,16 +141,75 @@ namespace IdentityServer.Controllers
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
-                
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
+
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
             // something went wrong, show form with error
             var vm = await _viewModelService.BuildLoginViewModelAsync(model);
-            
+
             return View(vm);
         }
 
+        /// <summary>
+        /// Show logout page
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            // build a model so the logout page knows what to display
+            var vm = await _viewModelService.BuildLogoutViewModelAsync(logoutId);
+
+            if (vm.ShowLogoutPrompt == false)
+            {
+                // if the request for logout was properly authenticated from IdentityServer, then
+                // we don't need to show the prompt and can just log the user out directly.
+                return await Logout(vm);
+            }
+
+            return View(vm);
+        }
+
+
+        /// <summary>
+        /// Handle logout page postback
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(LogoutInputModel model)
+        {
+            // build a model so the logged out page knows what to display
+            var vm = await _viewModelService.BuildLoggedOutViewModelAsync(model.LogoutId);
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                // delete local authentication cookie
+                await HttpContext.SignOutAsync();
+
+                // raise the logout event
+                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+            }
+
+            // check if we need to trigger sign-out at an upstream identity provider
+            if (vm.TriggerExternalSignout)
+            {
+                // build a return URL so the upstream provider will redirect back
+                // to us after the user has logged out. this allows us to then
+                // complete our single sign-out processing.
+                string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
+
+                // this triggers a redirect to the external provider for sign-out
+                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+            }
+
+            return View("LoggedOut", vm);
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

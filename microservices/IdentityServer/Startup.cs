@@ -27,7 +27,7 @@ namespace IdentityServer
                 .AddTestUsers(TestUsers.Users)
                 .AddDeveloperSigningCredential();
 
-            services.AddScoped<ViewModelService>();
+            services.AddScoped<ViewModelBuilderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

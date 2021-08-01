@@ -61,7 +61,7 @@ namespace IdentityServer
                 new IdentityResources.Email(),
                 new IdentityResource("roles", "Your role(s)", new List<string>{"role"})
             };
-        
+
         // public static List<TestUser> TestUsers =>
         //     new List<TestUser>
         //     {
