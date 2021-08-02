@@ -107,7 +107,8 @@ namespace IdentityServer.Controllers
                     // issue authentication cookie with subject ID and username
                     var isuser = new IdentityServerUser(user.SubjectId)
                     {
-                        DisplayName = user.Username
+                        DisplayName = user.Username,
+                        AdditionalClaims = user.Claims,
                     };
 
                     await HttpContext.SignInAsync(isuser, props);
