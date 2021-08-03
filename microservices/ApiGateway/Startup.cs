@@ -1,11 +1,13 @@
-using IdentityServer.Models;
-using IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
-namespace IdentityServer
+namespace ApiGateway
 {
     public class Startup
     {
@@ -13,42 +15,41 @@ namespace IdentityServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var authenticationProviderKey = "IdentityApiKey";
 
-            services.AddIdentityServer()
-                .AddInMemoryClients(Config.Clients)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryApiResources(Config.ApiResources)
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddTestUsers(TestUsers.Users)
-                .AddDeveloperSigningCredential();
+            services.AddAuthentication()
+                .AddJwtBearer(authenticationProviderKey, opts =>
+                {
+                    opts.Authority = "https://localhost:5000";
 
-            services.AddScoped<ViewModelBuilderService>();
+                    opts.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                    };
+                });
+
+            services.AddOcelot();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseIdentityServer();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                app.UseEndpoints(endpoints =>
+                endpoints.MapGet("/", async context =>
                 {
-                    endpoints.MapDefaultControllerRoute();
+                    await context.Response.WriteAsync("Hello World!");
                 });
             });
+
+            await app.UseOcelot();
         }
     }
 }

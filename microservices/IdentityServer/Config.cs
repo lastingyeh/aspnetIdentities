@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -28,11 +27,11 @@ namespace IdentityServer
                     AllowRememberConsent = false,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:5002/signin-oidc"
+                        "https://localhost:5003/signin-oidc"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:5002/signout-callback-oidc"
+                        "https://localhost:5003/signout-callback-oidc"
                     },
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedScopes =
@@ -50,7 +49,11 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[] { new ApiScope("movieAPI", "Movie API") };
 
-        public static IEnumerable<ApiResource> ApiResources => new ApiResource[] { };
+        public static IEnumerable<ApiResource> ApiResources =>
+            new ApiResource[]
+            {
+                new ApiResource("MoiveAPIs"){Scopes = {"movieAPI"}}
+            };
 
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]

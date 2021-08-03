@@ -103,3 +103,5 @@
 - [angular-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client)
 
 - [damienbod/AspNetCoreIdentityServer4ResourceOwnerPassword](https://github.com/damienbod/AspNetCoreIdentityServer4ResourceOwnerPassword)
+
+- [aspnetrun/run-aspnet-identityserver4](https://github.com/aspnetrun/run-aspnet-identityserver4)
