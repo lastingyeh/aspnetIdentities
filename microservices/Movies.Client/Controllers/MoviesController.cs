@@ -13,7 +13,7 @@ namespace Movies.Client.Controllers
 {
     [Authorize]
     public class MoviesController : Controller
-    {        
+    {
         private readonly IMovieApiService _movieApiService;
 
         public MoviesController(IMovieApiService movieApiService)
@@ -45,13 +45,13 @@ namespace Movies.Client.Controllers
         {
             var userInfo = await _movieApiService.GetUserInfo();
 
-            return View(userInfo);            
+            return View(userInfo);
         }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //if (id == null)
             //{
@@ -81,7 +81,7 @@ namespace Movies.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Genre,ReleaseDate,Owner")] Movie movie)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //if (ModelState.IsValid)
             //{
@@ -95,7 +95,7 @@ namespace Movies.Client.Controllers
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //if (id == null)
             //{
@@ -117,7 +117,7 @@ namespace Movies.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,ReleaseDate,Owner")] Movie movie)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //if (id != movie.Id)
             //{
@@ -150,7 +150,7 @@ namespace Movies.Client.Controllers
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //if (id == null)
             //{
@@ -172,7 +172,7 @@ namespace Movies.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return View();
+            return await Task.FromResult(View());
 
             //var movie = await _context.Movie.FindAsync(id);
             //_context.Movie.Remove(movie);
@@ -190,8 +190,7 @@ namespace Movies.Client.Controllers
         public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);            
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
-
     }
 }

@@ -41,8 +41,32 @@
     - client click link from email box
     - verify user & token
     - [page] VerifyEmail
+  
+## IdentityServer4
+- Part 1
+  - ApiOne
+  - ApiTwo
+  - IdentityServer
+  - JavascriptClient
+  - MvcClient
+
+- Part 2
+  - CustomIdentityServer
+  - CustomResourceServer
+  - CustomAccessRefreshApi
+
+## Microservices
+
+- IdentityServer
+- ApiGateway
+- Movies.API
+- Movies.Client
 
 ## OAuth
+
+- Api
+- Client
+- Server
 
 ## AuthorizationCode
 
