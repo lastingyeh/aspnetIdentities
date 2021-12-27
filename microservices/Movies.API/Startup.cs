@@ -29,6 +29,7 @@ namespace Movies.API
                 {
                     opts.Authority = "https://localhost:5000";
                     opts.Audience = "MoiveAPIs";
+                    opts.RequireHttpsMetadata = false;
                     // opts.TokenValidationParameters = new TokenValidationParameters
                     // {
                     //     // identity server [ApiResources] have to register as if true

@@ -1,15 +1,13 @@
-﻿using IdentityModel.Client;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Movies.Client.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Movies.Client.Models;
 
 namespace Movies.Client.ApiServices
 {
@@ -40,8 +38,8 @@ namespace Movies.Client.ApiServices
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var movieList = JsonConvert.DeserializeObject<List<Movie>>(content);
-            
+            var movieList = JsonSerializer.Deserialize<List<Movie>>(content);
+
             return movieList;
 
             ////////////////////////// //////////////////////// ////////////////////////
@@ -90,8 +88,6 @@ namespace Movies.Client.ApiServices
 
             //var movieList = JsonConvert.DeserializeObject<List<Movie>>(content);
             //return movieList;
-
-
         }
 
         public Task<Movie> GetMovie(string id)

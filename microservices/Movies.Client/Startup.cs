@@ -62,6 +62,8 @@ namespace Movies.Client
                 opts.ClientSecret = "secret";
                 opts.ResponseType = "code id_token";
 
+                // opts.RequireHttpsMetadata = false;
+
                 opts.Scope.Add("address");
                 opts.Scope.Add("email");
                 opts.Scope.Add("roles");
