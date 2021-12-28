@@ -27,7 +27,7 @@ namespace Movies.API
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", opts =>
                 {
-                    opts.Authority = "https://localhost:5000";
+                    opts.Authority = Configuration["AuthorityUrl"];
                     opts.Audience = "MoiveAPIs";
                     opts.RequireHttpsMetadata = false;
                     // opts.TokenValidationParameters = new TokenValidationParameters
@@ -51,7 +51,7 @@ namespace Movies.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

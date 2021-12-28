@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+  apigateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AuthorityUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:8000
+      - Routes__0__DownstreamHostAndPorts__0__Host=movies.api
+      - Routes__0__DownstreamHostAndPorts__0__Port=80
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - '8010:80'
+      # - "443"
+    # volumes:
+    #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  identityserver:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MovieClientUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:8002
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - '8000:80'
+      # - "443"
+    # volumes:
+    #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  movies.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AuthorityUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:8000
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - '8001:80'
+      # - "443"
+    # volumes:
+    #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  movies.client:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AuthorityUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:8000
+      - ApiGatewayUrl=http://apigateway
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+    depends_on:
+      - apigateway
+      - movies.api
+    ports:
+      - '8002:80'
+      # - "443"
+    # volumes:
+    #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

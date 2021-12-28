@@ -35,7 +35,7 @@ namespace Movies.Client
             // ApiGateway Client
             services.AddHttpClient("MovieAPIClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:5002/"); // API GATEWAY URL
+                client.BaseAddress = new Uri(Configuration["ApiGatewayUrl"]); // API GATEWAY URL
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();
@@ -43,7 +43,7 @@ namespace Movies.Client
             // Identityserver Client
             services.AddHttpClient("IDPClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:5000/");
+                client.BaseAddress = new Uri(Configuration["AuthorityUrl"]);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
@@ -56,13 +56,13 @@ namespace Movies.Client
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, opts =>
             {
-                opts.Authority = "https://localhost:5000";
+                opts.Authority = Configuration["AuthorityUrl"];
 
                 opts.ClientId = "movies_mvc_client";
                 opts.ClientSecret = "secret";
                 opts.ResponseType = "code id_token";
 
-                // opts.RequireHttpsMetadata = false;
+                opts.RequireHttpsMetadata = false;
 
                 opts.Scope.Add("address");
                 opts.Scope.Add("email");
@@ -101,8 +101,10 @@ namespace Movies.Client
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax });
 
             app.UseRouting();
 

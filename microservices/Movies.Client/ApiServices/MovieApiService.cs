@@ -114,7 +114,11 @@ namespace Movies.Client.ApiServices
         {
             var idpClient = _httpClientFactory.CreateClient("IDPClient");
 
-            var metaDataResponse = await idpClient.GetDiscoveryDocumentAsync();
+            var metaDataResponse = await idpClient.GetDiscoveryDocumentAsync(
+                new DiscoveryDocumentRequest
+                {
+                    Policy = new DiscoveryPolicy { RequireHttps = false }
+                });
 
             if (metaDataResponse.IsError)
             {

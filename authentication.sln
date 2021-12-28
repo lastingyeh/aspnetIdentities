@@ -1,49 +1,56 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "oauth", "oauth", "{2EC8FC95-0AD2-46FE-B037-99035755741E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "oauth\Server\Server.csproj", "{FA549A80-F20D-412B-913C-56F97A9AE59C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "oauth\Server\Server.csproj", "{FA549A80-F20D-412B-913C-56F97A9AE59C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "client", "oauth\Client\Client.csproj", "{AACD690A-C71E-43D9-8A4E-19A9F222BC54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "oauth\Client\Client.csproj", "{AACD690A-C71E-43D9-8A4E-19A9F222BC54}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "basic", "basic", "{9806771D-8F2C-4749-ABE5-6A2C92EE27DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "basics", "basic\Basics\Basics.csproj", "{B721089F-03B0-47E5-8BB7-BA98B85A5162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basics", "basic\Basics\Basics.csproj", "{B721089F-03B0-47E5-8BB7-BA98B85A5162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "identityExample", "basic\IdentityExample\IdentityExample.csproj", "{86BBFB53-F2B7-4B6F-AE39-2B25B058E8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityExample", "basic\IdentityExample\IdentityExample.csproj", "{86BBFB53-F2B7-4B6F-AE39-2B25B058E8C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "oauth\Api\Api.csproj", "{822CAFCC-9989-4DC9-B58C-549ED39ADEE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "oauth\Api\Api.csproj", "{822CAFCC-9989-4DC9-B58C-549ED39ADEE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identityserver4", "identityserver4", "{7BFD53F5-9A13-47D8-99EF-692DBF72B0A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "identityserver4\IdentityServer\IdentityServer.csproj", "{7B083467-0FE7-47B3-B7EA-C98EDCB136ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "identityserver4\IdentityServer\IdentityServer.csproj", "{7B083467-0FE7-47B3-B7EA-C98EDCB136ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiOne", "identityserver4\ApiOne\ApiOne.csproj", "{E47C765C-8180-4C4D-A317-99B89DA5AAB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiOne", "identityserver4\ApiOne\ApiOne.csproj", "{E47C765C-8180-4C4D-A317-99B89DA5AAB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTwo", "identityserver4\ApiTwo\ApiTwo.csproj", "{39D1A737-248C-4EDF-912B-362E3ABAD466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTwo", "identityserver4\ApiTwo\ApiTwo.csproj", "{39D1A737-248C-4EDF-912B-362E3ABAD466}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcClient", "identityserver4\MvcClient\MvcClient.csproj", "{7E03A181-3329-495F-A7FA-F22558A77FD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcClient", "identityserver4\MvcClient\MvcClient.csproj", "{7E03A181-3329-495F-A7FA-F22558A77FD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavascriptClient", "identityserver4\JavascriptClient\JavascriptClient.csproj", "{9A949DC3-9095-428F-A312-95971D3AEE26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JavascriptClient", "identityserver4\JavascriptClient\JavascriptClient.csproj", "{9A949DC3-9095-428F-A312-95971D3AEE26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomIdentityServer", "identityserver4\CustomIdentityServer\CustomIdentityServer.csproj", "{154F890A-4FCE-40C5-9F58-1CEA4EAB468C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIdentityServer", "identityserver4\CustomIdentityServer\CustomIdentityServer.csproj", "{154F890A-4FCE-40C5-9F58-1CEA4EAB468C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomResourceServer", "identityserver4\CustomResourceServer\CustomResourceServer.csproj", "{57F2F1D8-7166-48D3-B9AB-B7A86CBCAE69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResourceServer", "identityserver4\CustomResourceServer\CustomResourceServer.csproj", "{57F2F1D8-7166-48D3-B9AB-B7A86CBCAE69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAccessRefreshApi", "identityserver4\CustomAccessRefreshApi\CustomAccessRefreshApi.csproj", "{FC490BF9-F3B7-43C0-946D-F934E6CD3907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomAccessRefreshApi", "identityserver4\CustomAccessRefreshApi\CustomAccessRefreshApi.csproj", "{FC490BF9-F3B7-43C0-946D-F934E6CD3907}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "microservices", "microservices", "{19C125DC-968D-4427-85BF-D23E4455C215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "microservices\IdentityServer\IdentityServer.csproj", "{9123854F-9CD8-43AC-93A0-211882D1F3F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "microservices\IdentityServer\IdentityServer.csproj", "{9123854F-9CD8-43AC-93A0-211882D1F3F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.API", "microservices\Movies.API\Movies.API.csproj", "{3ED7AF3D-AA35-4C39-95C0-AA403768731F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.API", "microservices\Movies.API\Movies.API.csproj", "{3ED7AF3D-AA35-4C39-95C0-AA403768731F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "microservices\ApiGateway\ApiGateway.csproj", "{EA2673F6-E692-42B5-8A22-619EA6F85DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "microservices\ApiGateway\ApiGateway.csproj", "{EA2673F6-E692-42B5-8A22-619EA6F85DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Client", "microservices\Movies.Client\Movies.Client.csproj", "{985594FB-2D85-484D-8F9E-0BC6A314C239}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Client", "microservices\Movies.Client\Movies.Client.csproj", "{985594FB-2D85-484D-8F9E-0BC6A314C239}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FB47135A-0EFE-4A4A-9697-953CBD8243CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1ECB0E84-1415-41D5-A25E-1A161F256882}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,34 +61,7 @@ Global
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|x64.Build.0 = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Debug|x86.Build.0 = Debug|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|Any CPU.Build.0 = Release|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|x64.ActiveCfg = Release|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|x64.Build.0 = Release|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|x86.ActiveCfg = Release|Any CPU
-		{626F6CB2-247F-4617-99E7-9603401C6153}.Release|x86.Build.0 = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|x64.Build.0 = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Debug|x86.Build.0 = Debug|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|x64.ActiveCfg = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|x64.Build.0 = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|x86.ActiveCfg = Release|Any CPU
-		{5969C8D2-CFAC-48E2-9C11-8A9D90C18F3D}.Release|x86.Build.0 = Release|Any CPU
 		{FA549A80-F20D-412B-913C-56F97A9AE59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA549A80-F20D-412B-913C-56F97A9AE59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA549A80-F20D-412B-913C-56F97A9AE59C}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -286,6 +266,21 @@ Global
 		{985594FB-2D85-484D-8F9E-0BC6A314C239}.Release|x64.Build.0 = Release|Any CPU
 		{985594FB-2D85-484D-8F9E-0BC6A314C239}.Release|x86.ActiveCfg = Release|Any CPU
 		{985594FB-2D85-484D-8F9E-0BC6A314C239}.Release|x86.Build.0 = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|x64.Build.0 = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB47135A-0EFE-4A4A-9697-953CBD8243CA}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FA549A80-F20D-412B-913C-56F97A9AE59C} = {2EC8FC95-0AD2-46FE-B037-99035755741E}
@@ -305,5 +300,8 @@ Global
 		{3ED7AF3D-AA35-4C39-95C0-AA403768731F} = {19C125DC-968D-4427-85BF-D23E4455C215}
 		{EA2673F6-E692-42B5-8A22-619EA6F85DB6} = {19C125DC-968D-4427-85BF-D23E4455C215}
 		{985594FB-2D85-484D-8F9E-0BC6A314C239} = {19C125DC-968D-4427-85BF-D23E4455C215}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4A0C295-22CC-4587-9F8D-CC1B39026388}
 	EndGlobalSection
 EndGlobal

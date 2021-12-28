@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  apigateway:
+    container_name: apigateway
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: microservices/ApiGateway/Dockerfile
+
+  identityserver:
+    container_name: identityserver
+    image: ${DOCKER_REGISTRY-}identityserver
+    build:
+      context: .
+      dockerfile: microservices/IdentityServer/Dockerfile
+
+
+  movies.api:
+    container_name: movies.api
+    image: ${DOCKER_REGISTRY-}moviesapi
+    build:
+      context: .
+      dockerfile: microservices/Movies.API/Dockerfile
+
+
+  movies.client:
+    container_name: movies.client
+    image: ${DOCKER_REGISTRY-}moviesclient
+    build:
+      context: .
+      dockerfile: microservices/Movies.Client/Dockerfile
+

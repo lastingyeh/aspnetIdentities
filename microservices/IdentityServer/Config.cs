@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace IdentityServer
 {
     public class Config
     {
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients(IConfiguration configuration) =>
             new Client[]
             {
                 // API
@@ -27,11 +28,11 @@ namespace IdentityServer
                     AllowRememberConsent = false,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:5003/signin-oidc"
+                        $"{configuration["MovieClientUrl"]}/signin-oidc"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:5003/signout-callback-oidc"
+                        $"{configuration["MovieClientUrl"]}/signout-callback-oidc"
                     },
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedScopes =
